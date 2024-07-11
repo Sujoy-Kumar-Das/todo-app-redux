@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SxProps } from "@mui/material";
-import { Box } from "@mui/system";
 import { ReactNode } from "react";
 import {
   FieldValues,
@@ -17,7 +15,6 @@ type TFormConfig = {
 type TFromProps = {
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
-  sx: SxProps;
 } & TFormConfig;
 
 export default function TodoFrom({
@@ -25,7 +22,6 @@ export default function TodoFrom({
   onSubmit,
   defaultValues,
   resolver,
-  sx,
 }: TFromProps) {
   const formConfig: TFormConfig = {};
 
@@ -36,6 +32,7 @@ export default function TodoFrom({
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
   }
+  console.log(formConfig);
   const methods = useForm(formConfig);
   const { handleSubmit } = methods;
   const submitHandler = (data: FieldValues) => {
@@ -43,9 +40,7 @@ export default function TodoFrom({
   };
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(submitHandler)}>
-        <Box sx={{ ...sx }}>{children}</Box>
-      </form>
+      <form onSubmit={handleSubmit(submitHandler)}>{children}</form>
     </FormProvider>
   );
 }
