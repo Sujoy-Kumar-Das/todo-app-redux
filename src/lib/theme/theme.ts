@@ -10,10 +10,10 @@ const lightTheme = createTheme({
       main: "#F45E0C",
     },
     text: {
-      primary: "black",
+      primary: "#000000",
     },
     background: {
-      default: "white",
+      default: "#ffffff",
       paper: "whitesmoke",
     },
   },

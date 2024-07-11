@@ -16,6 +16,7 @@ export default function NavBar({
       sx={{
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` },
+        display: { md: "none", xs: "block" },
       }}
     >
       <Toolbar>
