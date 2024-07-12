@@ -8,16 +8,16 @@ type TInitialState = {
 const initialState: TInitialState = {
   todos: [
     {
-      description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      title: "1111111",
+      description: "This is description",
+      title: "Title 1",
       id: 1,
       createdAt: new Date().toISOString(),
       isDeleted: false,
       isCompleted: false,
     },
     {
-      description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      title: "tttttttttttttttttttttttttttt",
+      description: "This is second description",
+      title: "Title 2",
       id: 2,
       createdAt: new Date().toISOString(),
       isDeleted: false,

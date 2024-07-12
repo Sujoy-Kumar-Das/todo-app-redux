@@ -5,12 +5,11 @@ import TodoFrom from "../../components/form/TodoForm";
 import TodoInputField from "../../components/form/TodoInputField";
 import TodoTextArea from "../../components/form/TodoTextArea";
 import { createTodoReducer } from "../../redux/features/todo.slice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { todoValidationSchema } from "../../schemas";
 
 export default function CreateTodo() {
   const dispatch = useAppDispatch();
-  const { todos } = useAppSelector((state) => state.todos);
   const handleCreateTodo = (data: FieldValues) => {
     dispatch(createTodoReducer(data));
   };

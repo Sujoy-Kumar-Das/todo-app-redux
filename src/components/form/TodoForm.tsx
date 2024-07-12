@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import {
   FieldValues,
   FormProvider,
@@ -12,31 +12,33 @@ type TFormConfig = {
   defaultValues?: Record<string, any>;
 };
 
-type TFromProps = {
+type TFormProps = {
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
 } & TFormConfig;
 
-export default function TodoFrom({
+export default function TodoForm({
   children,
   onSubmit,
   defaultValues,
   resolver,
-}: TFromProps) {
-  const formConfig: TFormConfig = {};
+}: TFormProps) {
+  const methods = useForm({
+    defaultValues,
+    resolver,
+  });
 
-  if (resolver) {
-    formConfig["resolver"] = resolver;
-  }
+  useEffect(() => {
+    methods.reset(defaultValues);
+  }, [defaultValues, methods]);
 
-  if (defaultValues) {
-    formConfig["defaultValues"] = defaultValues;
-  }
-  const methods = useForm(formConfig);
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
+
   const submitHandler = (data: FieldValues) => {
     onSubmit(data);
+    reset();
   };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(submitHandler)}>{children}</form>

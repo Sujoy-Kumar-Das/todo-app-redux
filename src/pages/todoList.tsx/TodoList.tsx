@@ -19,6 +19,7 @@ import {
   editTodoReducer,
 } from "../../redux/features/todo.slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { TTodo } from "../../types";
 import formatDate from "../../utils/formatDate";
 
 export default function TodoList() {
@@ -29,16 +30,16 @@ export default function TodoList() {
   const deleteTodoDispatch = useAppDispatch();
   const completeDispatch = useAppDispatch();
 
-  const handleDeleteTodo = (id) => {
+  const handleDeleteTodo = (id: number) => {
     deleteTodoDispatch(deleteTodoReducer(id));
   };
 
-  const handleEditTodo = (data) => {
+  const handleEditTodo = (data: TTodo) => {
     SetEditModal(true);
     SetEditData(data);
   };
 
-  const handleCompleteTodo = (id) => {
+  const handleCompleteTodo = (id: number) => {
     completeDispatch(editTodoReducer({ id, isCompleted: true }));
   };
 
@@ -98,7 +99,7 @@ export default function TodoList() {
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                       <IconButton
                         color="info"
-                        onClick={() => handleEditTodo(todo.id)}
+                        onClick={() => handleEditTodo(todo)}
                       >
                         <EditNoteIcon />
                       </IconButton>
