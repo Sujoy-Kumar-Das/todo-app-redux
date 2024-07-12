@@ -9,7 +9,7 @@ const initialState: TInitialState = {
   todos: [
     {
       description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      title: "tttttttttttttttttttttttttttt",
+      title: "1111111",
       id: 1,
       createdAt: new Date().toISOString(),
       isDeleted: false,
@@ -24,6 +24,16 @@ const initialState: TInitialState = {
       isCompleted: false,
     },
   ],
+};
+const sortTodos = (todos: TTodo[]) => {
+  return todos.slice().sort((a, b) => {
+    if (a.isCompleted && !b.isCompleted) return 1;
+    if (!a.isCompleted && b.isCompleted) return -1;
+    return (
+      new Date(b.createdAt as string).getTime() -
+      new Date(a.createdAt as string).getTime()
+    );
+  });
 };
 
 const todoSlice = createSlice({
@@ -41,28 +51,36 @@ const todoSlice = createSlice({
       };
 
       state.todos.push(newTodo);
+      state.todos = sortTodos(state.todos);
     },
     editTodoReducer: (state, action) => {
       const payload = action.payload;
-      const matchedTodo = state.todos.find((todo) => todo.id === payload.id);
+      const findTodo = state.todos.find((todo) => todo.id === payload.id);
 
-      const filterTodo = state.todos.filter((todo) => todo.id !== payload.id);
+      if (findTodo) {
+        const remainingTodo = state.todos.filter(
+          (todo) => todo.id !== payload.id
+        );
+        const updatedTodo: TTodo = {
+          id: findTodo?.id as number,
+          title: payload.title ? payload.title : findTodo?.title,
+          description: payload.description
+            ? payload.description
+            : findTodo?.description,
+          isDeleted: payload.isDeleted
+            ? payload.isDeleted
+            : findTodo?.isDeleted,
+          isCompleted: payload.isCompleted
+            ? payload.isCompleted
+            : findTodo?.isCompleted,
+          updatedAt: new Date().toISOString(),
+          createdAt: findTodo.createdAt,
+        };
 
-      const updatedTodo: TTodo = {
-        id: matchedTodo?.id as number,
-        title: payload.title ? payload.title : matchedTodo?.title,
-        description: payload.title ? payload.title : matchedTodo?.description,
-        isDeleted: payload.title ? payload.title : matchedTodo?.isDeleted,
-        isCompleted: payload.title ? payload.title : matchedTodo?.isCompleted,
-        updatedAt: new Date().toISOString(),
-      };
-
-      const updatedTodos = [...filterTodo, updatedTodo];
-
-      state.todos = updatedTodos;
-      console.log(state);
+        const updatedTodos = [...remainingTodo, updatedTodo];
+        state.todos = sortTodos(updatedTodos);
+      }
     },
-
     deleteTodoReducer: (state, action) => {
       const findTodo = state.todos.find((todo) => todo.id === action.payload);
 
@@ -71,7 +89,7 @@ const todoSlice = createSlice({
           (todo) => todo.id !== action.payload
         );
 
-        state.todos = [...remainingTodo];
+        state.todos = sortTodos(remainingTodo);
       }
     },
   },

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { FieldValues } from "react-hook-form";
 import TodoFrom from "../../components/form/TodoForm";
 import TodoInputField from "../../components/form/TodoInputField";
@@ -19,65 +19,55 @@ export default function CreateTodo() {
     <Container>
       <Box
         sx={{
-          bgcolor: "background.paper",
-          px: 5,
-          py: 8,
           borderRadius: 2,
           boxShadow: 5,
         }}
       >
-        <Typography component={"h1"} variant="h3" textAlign={"center"} mb={4}>
+        <Typography
+          sx={{ bgcolor: "background.paper", px: 3, py: 3 }}
+          component={"h1"}
+          variant="h6"
+          textAlign={"left"}
+          mb={4}
+        >
           Create A Todo Now
         </Typography>
-
         <TodoFrom
           onSubmit={handleCreateTodo}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flexWrap: "wrap",
-            gap: 2,
-          }}
           resolver={zodResolver(todoValidationSchema)}
         >
-          <TodoInputField
-            name="title"
-            fullWidth={true}
-            label="Todo Title"
-            placeholder="Enter Your Todo Title"
-          />
-          <TodoTextArea
-            name="description"
-            fullWidth={true}
-            label="Description"
-            placeholder="Enter Your Description."
-          />
-          <Button fullWidth variant="contained" type="submit">
-            Add Todo
-          </Button>
+          <Stack
+            direction={"column"}
+            spacing={3}
+            bgcolor={"background.default"}
+            p={3}
+            borderRadius={2}
+          >
+            <TodoInputField
+              name="title"
+              fullWidth={true}
+              label="Todo Title"
+              placeholder="Enter Your Todo Title"
+            />
+            <TodoTextArea
+              name="description"
+              fullWidth={true}
+              label="Description"
+              placeholder="Enter Your Description."
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              type="submit"
+              sx={{
+                background: "linear-gradient(45deg, #2779F5 30%, #3FC1C9 90%)",
+              }}
+            >
+              Add Todo
+            </Button>
+          </Stack>
         </TodoFrom>
       </Box>
-      {todos.length > 0 &&
-        todos.map((todo) => (
-          <Box
-            key={todo.id}
-            sx={{
-              bgcolor: "background.paper",
-              px: 2,
-              py: 3,
-              borderRadius: 2,
-              boxShadow: 2,
-              mt: 5,
-            }}
-          >
-            <Typography variant="h6" sx={{ overflowWrap: "break-word" }}>
-              {todo.title}
-            </Typography>
-            <Typography variant="body1" sx={{ overflowWrap: "break-word" }}>
-              {todo.description}
-            </Typography>
-          </Box>
-        ))}
     </Container>
   );
 }

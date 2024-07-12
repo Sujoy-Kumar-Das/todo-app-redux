@@ -32,7 +32,6 @@ export default function TodoFrom({
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
   }
-  console.log(formConfig);
   const methods = useForm(formConfig);
   const { handleSubmit } = methods;
   const submitHandler = (data: FieldValues) => {
